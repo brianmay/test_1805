@@ -18,6 +18,10 @@ defmodule Test1805Web.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    live_session :default do
+      live "/logs", Live.Logs, :index
+      live "/logs/:id", Live.Logs, :index
+    end
   end
 
   # Other scopes may use custom stacks.

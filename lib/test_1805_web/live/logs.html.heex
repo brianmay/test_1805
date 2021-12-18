@@ -1,0 +1,18 @@
+<%= if @id == nil do %>
+    <h1>Logs</h1>
+
+    <% keys = @nodes |> Map.keys() |> Enum.sort() %>
+    <%= for node_id <- keys do %>
+        <% lines = Map.get(@nodes, node_id, []) %>
+
+        <h2><%= live_patch inspect(node_id), to: get_node_url(@socket, node_id), class: "hover:text-blue-500" %></h2>
+        <.logs lines={lines}/>
+    <% end %>
+<% else %>
+    <%= live_patch "View all", to: get_list_url(@socket), class: "btn btn-blue" %>
+
+    <% node_id = @id %>
+    <h1><%= inspect(node_id) %></h1>
+
+    <.logs lines={@nodes[node_id] || []}/>
+<% end %>
